@@ -116,7 +116,11 @@
   .plat-icon{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;flex-shrink:0}
   .instagram-opt .plat-icon{background:var(--instagram)}
   .youtube-opt .plat-icon{background:var(--youtube)}
-  .submit-btn{width:100%;padding:13px 20px;border:none;border-radius:var(--radius);background:var(--text);color:var(--bg);font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;transition:all var(--transition);letter-spacing:.01em}
+  .modal-actions{display:flex;gap:10px;align-items:center}
+  .delete-btn{display:none;padding:13px 18px;border:1px solid rgba(224,59,59,.35);border-radius:var(--radius);background:rgba(224,59,59,.08);color:var(--youtube);font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;transition:all var(--transition);white-space:nowrap;flex-shrink:0}
+  .delete-btn:hover{background:rgba(224,59,59,.18);border-color:var(--youtube)}
+  .delete-btn.visible{display:block}
+  .submit-btn{flex:1;padding:13px 20px;border:none;border-radius:var(--radius);background:var(--text);color:var(--bg);font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;transition:all var(--transition);letter-spacing:.01em}
   .submit-btn:hover{background:#F0F0ED;transform:translateY(-1px);box-shadow:var(--shadow-md)}
   .submit-btn:active{transform:translateY(0)}
   .legend{display:flex;align-items:center;gap:20px;margin-top:20px;padding:0 4px}
@@ -137,7 +141,7 @@
   .week-col-date{font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:500;color:var(--text-secondary);margin-top:2px}
   .week-col.today .week-col-date{color:var(--accent);font-weight:700}
   .week-col-items{padding:8px;display:flex;flex-direction:column;gap:8px;flex:1;overflow-y:auto}
-  .week-item{padding:10px 12px;border-radius:var(--radius);border:1px solid transparent;cursor:default;transition:all var(--transition);animation:fadeInCell 300ms ease both}
+  .week-item{padding:10px 12px;border-radius:var(--radius);border:1px solid transparent;cursor:pointer;transition:all var(--transition);animation:fadeInCell 300ms ease both}
   .week-item:hover{background:var(--surface-hover)}
   .week-item.instagram{background:var(--instagram-bg);border-color:var(--instagram-border)}
   .week-item.youtube{background:var(--youtube-bg);border-color:var(--youtube-border)}
@@ -211,7 +215,7 @@
 <div class="overlay" id="overlay">
   <div class="modal">
     <div class="modal-header">
-      <h2 class="modal-title">Schedule Post</h2>
+      <h2 class="modal-title" id="modalTitle">Schedule Post</h2>
       <button class="modal-close" id="modalClose">&times;</button>
     </div>
     <div class="modal-body">
@@ -296,7 +300,10 @@
         <textarea id="postDesc" placeholder="Caption, notes, or description…"></textarea>
       </div>
 
-      <button class="submit-btn" id="submitBtn">Schedule</button>
+      <div class="modal-actions">
+        <button class="delete-btn" id="deleteBtn">Delete Post</button>
+        <button class="submit-btn" id="submitBtn">Schedule</button>
+      </div>
     </div>
   </div>
 </div>
@@ -323,6 +330,7 @@
   let currentMonth = now.getMonth();
   let selectedPlatform = null;
   let currentDriveFile = null;
+  let editingPost = null; // { key, index } when editing, null when creating
 
   // View state
   let currentView = localStorage.getItem('calendarView') || 'month';
@@ -344,10 +352,27 @@
   const savedPosts = loadPosts();
   const posts = savedPosts || {};
 
+  function makeId(){ return Date.now().toString(36)+Math.random().toString(36).slice(2); }
+
+  // Ensure all existing posts have IDs
+  Object.values(posts).forEach(arr=>arr.forEach(p=>{ if(!p.id) p.id=makeId(); }));
+
   function addPost(year,month,day,platform,title,extra={}){
     const key=`${year}-${month}-${day}`;
     if(!posts[key]) posts[key]=[];
-    posts[key].push({platform,title,...extra});
+    posts[key].push({id:makeId(),platform,title,...extra});
+    savePosts();
+  }
+
+  function updatePost(key,index,platform,title,extra={}){
+    const p=posts[key][index];
+    posts[key][index]={...p,platform,title,...extra};
+    savePosts();
+  }
+
+  function deletePost(key,index){
+    posts[key].splice(index,1);
+    if(posts[key].length===0) delete posts[key];
     savePosts();
   }
 
@@ -382,11 +407,13 @@
   const daysGrid=document.getElementById('daysGrid');
   const overlay=document.getElementById('overlay');
   const modalClose=document.getElementById('modalClose');
+  const modalTitle=document.getElementById('modalTitle');
   const postDate=document.getElementById('postDate');
   const postTime=document.getElementById('postTime');
   const postTitle=document.getElementById('postTitle');
   const postDesc=document.getElementById('postDesc');
   const submitBtn=document.getElementById('submitBtn');
+  const deleteBtn=document.getElementById('deleteBtn');
   const platformOpts=document.querySelectorAll('.platform-opt');
   const drivePickerBtn=document.getElementById('drivePickerBtn');
   const drivePreview=document.getElementById('drivePreview');
@@ -589,12 +616,12 @@
       html+=`<div class="${cls}" data-year="${year}" data-month="${month}" data-day="${day}">`;
       html+=`<div class="day-num">${day}</div><div class="items">`;
       const visible=dayPosts.slice(0,3);
-      for(const p of visible){
-        html+=`<div class="item ${p.platform}" data-tt-title="${escapeHtml(p.title)}" data-tt-time="${p.time||''}"><span class="item-dot"></span>`;
+      visible.forEach((p,idx)=>{
+        html+=`<div class="item ${p.platform}" data-tt-title="${escapeHtml(p.title)}" data-tt-time="${p.time||''}" data-key="${key}" data-idx="${idx}"><span class="item-dot"></span>`;
         html+=`<span class="item-title">${escapeHtml(p.title)}</span>`;
         if(p.driveFileId) html+=`<span class="item-drive-dot" title="Drive linked"></span>`;
         html+=`</div>`;
-      }
+      });
       if(dayPosts.length>3) html+=`<div class="more-badge">+${dayPosts.length-3} more</div>`;
       html+=`</div></div>`;
     }
@@ -603,6 +630,12 @@
       cell.addEventListener('click',()=>openModal(
         parseInt(cell.dataset.year),parseInt(cell.dataset.month),parseInt(cell.dataset.day)
       ));
+    });
+    daysGrid.querySelectorAll('.item[data-key]').forEach(item=>{
+      item.addEventListener('click',e=>{
+        e.stopPropagation();
+        openEditModal(item.dataset.key, parseInt(item.dataset.idx));
+      });
     });
   }
 
@@ -629,9 +662,9 @@
       if(dayPosts.length===0){
         html+=`<div class="week-empty">No posts</div>`;
       }
-      for(const p of dayPosts){
+      dayPosts.forEach((p,idx)=>{
         const platLabel=p.platform==='instagram'?'IG':p.platform==='youtube'?'YT':'Draft';
-        html+=`<div class="week-item ${p.platform}">`;
+        html+=`<div class="week-item ${p.platform}" data-key="${key}" data-idx="${idx}">`;
         html+=`<div class="week-item-top"><span class="week-item-badge">${platLabel}</span>`;
         if(p.time) html+=`<span class="week-item-time">${p.time}</span>`;
         html+=`</div>`;
@@ -640,7 +673,7 @@
         if(p.driveThumbnail) html+=`<div class="week-item-thumb"><img src="${p.driveThumbnail}" alt=""></div>`;
         if(p.driveFileId) html+=`<div class="week-item-drive">${escapeHtml(p.driveFileName||'Drive file')}</div>`;
         html+=`</div>`;
-      }
+      });
       html+=`</div></div>`;
     }
     html+=`</div>`;
@@ -649,6 +682,12 @@
       col.addEventListener('click',()=>openModal(
         parseInt(col.dataset.year),parseInt(col.dataset.month),parseInt(col.dataset.day)
       ));
+    });
+    daysGrid.querySelectorAll('.week-item[data-key]').forEach(item=>{
+      item.addEventListener('click',e=>{
+        e.stopPropagation();
+        openEditModal(item.dataset.key, parseInt(item.dataset.idx));
+      });
     });
   }
 
@@ -661,6 +700,10 @@
   function escapeHtml(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 
   function openModal(year,month,day){
+    editingPost=null;
+    modalTitle.textContent='Schedule Post';
+    submitBtn.textContent='Schedule';
+    deleteBtn.classList.remove('visible');
     const ds=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
     postDate.value=ds; postTime.value='09:00'; postTitle.value=''; postDesc.value='';
     selectedPlatform=null;
@@ -670,7 +713,46 @@
     setTimeout(()=>postTitle.focus(),250);
   }
 
-  function closeModal(){ overlay.classList.remove('open'); }
+  function openEditModal(key,index){
+    const p=posts[key]?.[index];
+    if(!p) return;
+    editingPost={key,index};
+    modalTitle.textContent='Edit Post';
+    submitBtn.textContent='Save Changes';
+    deleteBtn.classList.add('visible');
+
+    // Pre-fill date from key e.g. "2026-2-14"
+    const [ky,km,kd]=key.split('-');
+    const ds=`${ky}-${String(parseInt(km)+1).padStart(2,'0')}-${String(kd).padStart(2,'0')}`;
+    postDate.value=ds;
+    postTime.value=p.time||'09:00';
+    postTitle.value=p.title||'';
+    postDesc.value=p.description||'';
+
+    // Platform
+    selectedPlatform=p.platform||null;
+    platformOpts.forEach(o=>{
+      o.classList.toggle('selected', o.dataset.platform===selectedPlatform);
+    });
+
+    // Drive file
+    clearDriveFile();
+    if(p.driveFileId){
+      currentDriveFile={
+        id:p.driveFileId,
+        name:p.driveFileName||'Drive file',
+        mimeType:p.driveFileType==='video'?'video/mp4':p.driveFileType==='carousel'?'application/vnd.google-apps.folder':'image/png',
+        thumbnailUrl:p.driveThumbnail||null,
+        isFolder:p.driveFileType==='carousel'
+      };
+      renderDrivePreview();
+    }
+
+    overlay.classList.add('open');
+    setTimeout(()=>postTitle.focus(),250);
+  }
+
+  function closeModal(){ overlay.classList.remove('open'); editingPost=null; }
 
   modalClose.addEventListener('click',closeModal);
   overlay.addEventListener('click',e=>{ if(e.target===overlay) closeModal(); });
@@ -697,8 +779,23 @@
       extra.driveThumbnail=currentDriveFile.thumbnailUrl;
       extra.driveFileName=currentDriveFile.name;
       extra.driveFileType=currentDriveFile.isFolder?'carousel':currentDriveFile.mimeType.startsWith('video/')?'video':'image';
+    } else {
+      // Clear drive fields if removed
+      extra.driveFileId=null; extra.driveThumbnail=null; extra.driveFileName=null; extra.driveFileType=null;
     }
-    addPost(parseInt(y),parseInt(m)-1,parseInt(d),selectedPlatform,title,extra);
+    if(editingPost){
+      updatePost(editingPost.key,editingPost.index,selectedPlatform,title,extra);
+    } else {
+      addPost(parseInt(y),parseInt(m)-1,parseInt(d),selectedPlatform,title,extra);
+    }
+    closeModal();
+    renderView();
+  });
+
+  deleteBtn.addEventListener('click',()=>{
+    if(!editingPost) return;
+    if(!confirm('Delete this post? This cannot be undone.')) return;
+    deletePost(editingPost.key,editingPost.index);
     closeModal();
     renderView();
   });
