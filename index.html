@@ -404,19 +404,24 @@
         } else {
           for(const pp of pipelinePosts){
             const isCarousel=pp.driveFileType==='carousel'||pp.title.toLowerCase().includes('carousel');
-            // Skip if date already has a non-TBD post of the same type
-            const hasExisting=posts[key].some(p=>{
-              const pIsCarousel=p.driveFileType==='carousel'||p.title.toLowerCase().includes('carousel');
-              return pIsCarousel===isCarousel && !p.title.includes('- TBD');
+            // Find existing post of same type on this date
+            const existIdx=posts[key].findIndex(p=>{
+              const pIsCarousel=p.driveFileType==='carousel'||(p.title||'').toLowerCase().includes('carousel');
+              return pIsCarousel===isCarousel;
             });
-            if(hasExisting) continue;
-            // Replace TBD slot if one exists
-            const tdbIdx=posts[key].findIndex(p=>p.title&&p.title.includes('- TBD')&&
-              ((isCarousel&&p.title.includes('Carousel'))||(!isCarousel&&p.title.includes('Reel'))));
-            if(tdbIdx>=0){
-              posts[key][tdbIdx]={...pp,id:posts[key][tdbIdx].id};
-              changed=true;
-            } else if(!posts[key].some(p=>p.id===pp.id)){
+            if(existIdx>=0){
+              // Update existing post: apply pipeline title, description, and Drive fields
+              const local=posts[key][existIdx];
+              const updates={};
+              if(pp.title&&!pp.title.includes('- TBD')) updates.title=pp.title;
+              if(pp.description) updates.description=pp.description;
+              if(pp.driveFileId) { updates.driveFileId=pp.driveFileId; updates.driveThumbnail=pp.driveThumbnail; updates.driveFileName=pp.driveFileName; updates.driveFileType=pp.driveFileType; }
+              if(Object.keys(updates).length && (local.title.includes('- TBD')||!local.driveFileId||local.driveFileId!==pp.driveFileId)){
+                Object.assign(local,updates);
+                changed=true;
+              }
+            } else {
+              // No matching post — add it
               posts[key].push(pp);
               changed=true;
             }
