@@ -363,6 +363,46 @@
   // Ensure all existing posts have IDs
   Object.values(posts).forEach(arr=>arr.forEach(p=>{ if(!p.id) p.id=makeId(); }));
 
+  // Fetch pipeline data from data/posts.json and merge (pipeline fills gaps, localStorage wins conflicts)
+  (async function mergePipelineData(){
+    try{
+      const r=await fetch('data/posts.json?t='+Date.now());
+      if(!r.ok) return;
+      const pipelineData=await r.json();
+      let changed=false;
+      for(const[key,pipelinePosts] of Object.entries(pipelineData)){
+        if(!posts[key]){
+          posts[key]=pipelinePosts;
+          changed=true;
+        } else {
+          // Merge by id: add pipeline posts that don't exist locally
+          const localIds=new Set(posts[key].map(p=>p.id));
+          for(const pp of pipelinePosts){
+            if(!localIds.has(pp.id)){
+              // Check if there's a TBD post of same type to replace
+              const tdbIdx=posts[key].findIndex(p=>p.title&&p.title.includes('- TBD')&&
+                ((pp.driveFileType==='carousel'&&p.title.includes('Carousel'))||(pp.driveFileType!=='carousel'&&p.title.includes('Reel'))));
+              if(tdbIdx>=0){
+                posts[key][tdbIdx]={...pp,id:posts[key][tdbIdx].id};
+              } else {
+                posts[key].push(pp);
+              }
+              changed=true;
+            } else {
+              // Pipeline post exists locally — update non-local fields if pipeline has newer data
+              const localPost=posts[key].find(p=>p.id===pp.id);
+              if(localPost && localPost.title && localPost.title.includes('- TBD') && pp.title && !pp.title.includes('- TBD')){
+                Object.assign(localPost,pp);
+                changed=true;
+              }
+            }
+          }
+        }
+      }
+      if(changed){ savePosts(); renderView(); }
+    }catch(e){ console.warn('Pipeline data fetch failed:',e); }
+  })();
+
   function addPost(year,month,day,platform,title,extra={}){
     const key=`${year}-${month}-${day}`;
     if(!posts[key]) posts[key]=[];
