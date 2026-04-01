@@ -363,6 +363,33 @@
   // Ensure all existing posts have IDs
   Object.values(posts).forEach(arr=>arr.forEach(p=>{ if(!p.id) p.id=makeId(); }));
 
+  // One-time cleanup: remove duplicate posts per day (keep first non-TBD, or first if all TBD)
+  (function dedup(){
+    let cleaned=false;
+    for(const[key,arr] of Object.entries(posts)){
+      const seen=new Map();
+      const keep=[];
+      for(const p of arr){
+        const isCarousel=p.driveFileType==='carousel'||(p.title||'').toLowerCase().includes('carousel');
+        const type=p.platform+'-'+(isCarousel?'carousel':'reel');
+        if(!seen.has(type)){
+          seen.set(type,keep.length);
+          keep.push(p);
+        } else {
+          // Duplicate — keep the one with a real name (not TBD)
+          const existIdx=seen.get(type);
+          if(keep[existIdx].title.includes('- TBD')&&!p.title.includes('- TBD')){
+            keep[existIdx]=p;
+          }
+          cleaned=true;
+        }
+      }
+      if(keep.length!==arr.length) posts[key]=keep;
+      if(posts[key].length===0) delete posts[key];
+    }
+    if(cleaned) savePosts();
+  })();
+
   // Fetch pipeline data from data/posts.json and merge (pipeline fills gaps, localStorage wins conflicts)
   (async function mergePipelineData(){
     try{
@@ -375,26 +402,23 @@
           posts[key]=pipelinePosts;
           changed=true;
         } else {
-          // Merge by id: add pipeline posts that don't exist locally
-          const localIds=new Set(posts[key].map(p=>p.id));
           for(const pp of pipelinePosts){
-            if(!localIds.has(pp.id)){
-              // Check if there's a TBD post of same type to replace
-              const tdbIdx=posts[key].findIndex(p=>p.title&&p.title.includes('- TBD')&&
-                ((pp.driveFileType==='carousel'&&p.title.includes('Carousel'))||(pp.driveFileType!=='carousel'&&p.title.includes('Reel'))));
-              if(tdbIdx>=0){
-                posts[key][tdbIdx]={...pp,id:posts[key][tdbIdx].id};
-              } else {
-                posts[key].push(pp);
-              }
+            const isCarousel=pp.driveFileType==='carousel'||pp.title.toLowerCase().includes('carousel');
+            // Skip if date already has a non-TBD post of the same type
+            const hasExisting=posts[key].some(p=>{
+              const pIsCarousel=p.driveFileType==='carousel'||p.title.toLowerCase().includes('carousel');
+              return pIsCarousel===isCarousel && !p.title.includes('- TBD');
+            });
+            if(hasExisting) continue;
+            // Replace TBD slot if one exists
+            const tdbIdx=posts[key].findIndex(p=>p.title&&p.title.includes('- TBD')&&
+              ((isCarousel&&p.title.includes('Carousel'))||(!isCarousel&&p.title.includes('Reel'))));
+            if(tdbIdx>=0){
+              posts[key][tdbIdx]={...pp,id:posts[key][tdbIdx].id};
               changed=true;
-            } else {
-              // Pipeline post exists locally — update non-local fields if pipeline has newer data
-              const localPost=posts[key].find(p=>p.id===pp.id);
-              if(localPost && localPost.title && localPost.title.includes('- TBD') && pp.title && !pp.title.includes('- TBD')){
-                Object.assign(localPost,pp);
-                changed=true;
-              }
+            } else if(!posts[key].some(p=>p.id===pp.id)){
+              posts[key].push(pp);
+              changed=true;
             }
           }
         }
