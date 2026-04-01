@@ -38,7 +38,7 @@
   .weekday{padding:14px 12px 12px;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);text-align:left}
   .weekday:not(:last-child){border-right:1px solid var(--border)}
   .days{display:grid;grid-template-columns:repeat(7,1fr)}
-  .day-cell{min-height:120px;padding:8px 10px 10px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);cursor:pointer;transition:background var(--transition);position:relative;animation:fadeInCell 300ms ease both;overflow:visible}
+  .day-cell{min-height:120px;padding:8px 10px 10px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);cursor:pointer;transition:background var(--transition);position:relative;animation:fadeInCell 300ms ease both;overflow:hidden}
   .day-cell:nth-child(7n){border-right:none}
   .days .day-cell:nth-last-child(-n+7){border-bottom:none}
   .day-cell:hover{background:var(--surface-hover)}
