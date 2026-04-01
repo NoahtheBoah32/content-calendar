@@ -47,8 +47,8 @@
   .day-cell.outside .item{opacity:.4}
   .day-num{font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:500;color:var(--text-secondary);margin-bottom:6px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all var(--transition)}
   .day-cell.today .day-num{background:var(--accent);color:#fff;font-weight:600}
-  .items{display:flex;flex-direction:column;gap:3px}
-  .item{display:flex;align-items:center;gap:6px;padding:3px 7px;border-radius:5px;font-size:.72rem;font-weight:500;line-height:1.35;white-space:nowrap;overflow:visible;border:1px solid transparent;transition:all var(--transition)}
+  .items{display:flex;flex-direction:column;gap:3px;overflow:hidden;min-width:0}
+  .item{display:flex;align-items:center;gap:6px;padding:3px 7px;border-radius:5px;font-size:.72rem;font-weight:500;line-height:1.35;white-space:nowrap;overflow:hidden;max-width:100%;border:1px solid transparent;transition:all var(--transition)}
   .item.instagram{background:var(--instagram-bg);color:var(--instagram);border-color:var(--instagram-border)}
   .item.ig-reel{background:var(--ig-reel-bg);color:var(--ig-reel);border-color:var(--ig-reel-border)}
   .item.youtube{background:var(--youtube-bg);color:var(--youtube);border-color:var(--youtube-border)}
