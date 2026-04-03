@@ -5,7 +5,7 @@
       "platform": "instagram",
       "title": "Plowing - Carousel",
       "time": "17:00",
-      "description": "DEPLOYED. Every time you plow, you're killing the network that feeds your crops for free.",
+      "description": "DEPLOYED.",
       "driveFileId": "1bC_F4So5lzMdD-JAvlcQYcOmH-HRtFp3",
       "driveThumbnail": "https://drive.google.com/thumbnail?id=1TIiKdxQJr7l_t3g7CTb3Z1co8SACA36f&sz=w400",
       "driveFileName": "carousel_01",
@@ -16,7 +16,7 @@
       "platform": "instagram",
       "title": "Weed Plant - Carousel",
       "time": "17:00",
-      "description": "DEPLOYING TODAY. The government declared it a weed. Indigenous farmers never stopped planting it.",
+      "description": "DEPLOYED.",
       "driveFileId": "1h9-M5IYgWBShWY_b32NUmHAM0g9rIfpO",
       "driveThumbnail": "https://drive.google.com/thumbnail?id=1bxY2Gi_O1KCZy1evxNIgQXKxfyQsrit4&sz=w400",
       "driveFileName": "carousel_02",
@@ -29,7 +29,7 @@
       "platform": "instagram",
       "title": "Mining Recovery - Carousel",
       "time": "17:00",
-      "description": "Mining companies left. The farmers stayed. Thirty years later, the forest came back.",
+      "description": "DEPLOYED.",
       "driveFileId": "1yBZ2uGG4h13exODoulMunYGyIHuTEvll",
       "driveThumbnail": "https://drive.google.com/thumbnail?id=1_lAKx9HqkWip1i412MWs3RTN2e7dT6C8&sz=w400",
       "driveFileName": "carousel_03",
@@ -42,7 +42,7 @@
       "platform": "instagram",
       "title": "Ifugao - Carousel",
       "time": "17:00",
-      "description": "The Ifugao didn't build rice terraces. They built a gravity-powered water computer.",
+      "description": "DEPLOYED.",
       "driveFileId": "1Uj-ftZWZaXLFX8zlDJQYl_QDjLlv3fOH",
       "driveThumbnail": "https://drive.google.com/thumbnail?id=13o2E0oJ6ExF6uZPEv-Y7uF52OHAROJR2&sz=w400",
       "driveFileName": "carousel_04",
@@ -74,5 +74,83 @@
       "driveFileName": "carousel_06",
       "driveFileType": "carousel"
     }
+  ],
+  "2026-4-5": [
+    {"id": "may-r1", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-6": [
+    {"id": "may-r2", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-7": [
+    {"id": "may-r3", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-8": [
+    {"id": "may-c1", "platform": "instagram", "title": "Carousel - TBD", "time": "17:00", "description": "Carousel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "carousel"}
+  ],
+  "2026-4-9": [
+    {"id": "may-r4", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-10": [
+    {"id": "may-r5", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-11": [
+    {"id": "may-c2", "platform": "instagram", "title": "Carousel - TBD", "time": "17:00", "description": "Carousel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "carousel"}
+  ],
+  "2026-4-12": [
+    {"id": "may-r6", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-13": [
+    {"id": "may-r7", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-14": [
+    {"id": "may-r8", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-15": [
+    {"id": "may-c3", "platform": "instagram", "title": "Carousel - TBD", "time": "17:00", "description": "Carousel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "carousel"}
+  ],
+  "2026-4-16": [
+    {"id": "may-r9", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-17": [
+    {"id": "may-r10", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-18": [
+    {"id": "may-c4", "platform": "instagram", "title": "Carousel - TBD", "time": "17:00", "description": "Carousel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "carousel"}
+  ],
+  "2026-4-19": [
+    {"id": "may-r11", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-20": [
+    {"id": "may-r12", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-21": [
+    {"id": "may-r13", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-22": [
+    {"id": "may-c5", "platform": "instagram", "title": "Carousel - TBD", "time": "17:00", "description": "Carousel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "carousel"}
+  ],
+  "2026-4-23": [
+    {"id": "may-r14", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-24": [
+    {"id": "may-r15", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-25": [
+    {"id": "may-c6", "platform": "instagram", "title": "Carousel - TBD", "time": "17:00", "description": "Carousel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "carousel"}
+  ],
+  "2026-4-26": [
+    {"id": "may-r16", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-27": [
+    {"id": "may-r17", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-28": [
+    {"id": "may-r18", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
+  ],
+  "2026-4-29": [
+    {"id": "may-c7", "platform": "instagram", "title": "Carousel - TBD", "time": "17:00", "description": "Carousel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "carousel"}
+  ],
+  "2026-4-30": [
+    {"id": "may-r19", "platform": "instagram", "title": "Reel - TBD", "time": "17:00", "description": "Reel slot", "driveFileId": "", "driveThumbnail": "", "driveFileName": "", "driveFileType": "video"}
   ]
 }
