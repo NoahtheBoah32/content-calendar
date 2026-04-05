@@ -812,7 +812,6 @@
     const title=(p.title||'').toLowerCase();
     if(title.includes('mycelium') && !title.includes('carousel') && !title.includes('reel')) return 'mycelium';
     // Instagram posts: check if reel or carousel
-    const title=(p.title||'').toLowerCase();
     if(p.driveFileType==='carousel'||title.includes('carousel')) return 'instagram';
     return 'ig-reel'; // default instagram to reel (matcha)
   }
