@@ -20,7 +20,8 @@
     --text-muted:#5C5853;--accent:#E8553A;--instagram:#E5B83A;--instagram-bg:rgba(229,184,58,.12);
     --instagram-border:rgba(229,184,58,.22);--ig-reel:#7BA05B;--ig-reel-bg:rgba(123,160,91,.12);
     --ig-reel-border:rgba(123,160,91,.22);--youtube:#E03B3B;--youtube-bg:rgba(224,59,59,.12);
-    --youtube-border:rgba(224,59,59,.22);--draft:#6B6660;--draft-bg:rgba(107,102,96,.12);
+    --youtube-border:rgba(224,59,59,.22);--mycelium:#8B6914;--mycelium-bg:rgba(139,105,20,.12);
+    --mycelium-border:rgba(139,105,20,.22);--draft:#6B6660;--draft-bg:rgba(107,102,96,.12);
     --draft-border:rgba(107,102,96,.22);--overlay:rgba(0,0,0,.7);--radius:8px;--radius-lg:14px;
     --shadow-sm:0 1px 3px rgba(0,0,0,.2);--shadow-md:0 4px 20px rgba(0,0,0,.35);
     --shadow-lg:0 16px 56px rgba(0,0,0,.6);--transition:180ms cubic-bezier(.4,0,.2,1);
@@ -57,11 +58,13 @@
   .item{display:flex;align-items:center;gap:6px;padding:3px 7px;border-radius:5px;font-size:.72rem;font-weight:500;line-height:1.35;white-space:nowrap;overflow:hidden;max-width:100%;border:1px solid transparent;transition:all var(--transition)}
   .item.instagram{background:var(--instagram-bg);color:var(--instagram);border-color:var(--instagram-border)}
   .item.ig-reel{background:var(--ig-reel-bg);color:var(--ig-reel);border-color:var(--ig-reel-border)}
+  .item.mycelium{background:var(--mycelium-bg);color:var(--mycelium);border-color:var(--mycelium-border)}
   .item.youtube{background:var(--youtube-bg);color:var(--youtube);border-color:var(--youtube-border)}
   .item.draft{background:var(--draft-bg);color:var(--draft);border-color:var(--draft-border)}
   .item-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
   .instagram .item-dot{background:var(--instagram)}
   .ig-reel .item-dot{background:var(--ig-reel)}
+  .mycelium .item-dot{background:var(--mycelium)}
   .youtube .item-dot{background:var(--youtube)}
   .draft .item-dot{background:var(--draft)}
   .item-title{overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
@@ -154,12 +157,14 @@
   .week-item:hover{background:var(--surface-hover)}
   .week-item.instagram{background:var(--instagram-bg);border-color:var(--instagram-border)}
   .week-item.ig-reel{background:var(--ig-reel-bg);border-color:var(--ig-reel-border)}
+  .week-item.mycelium{background:var(--mycelium-bg);border-color:var(--mycelium-border)}
   .week-item.youtube{background:var(--youtube-bg);border-color:var(--youtube-border)}
   .week-item.draft{background:var(--draft-bg);border-color:var(--draft-border)}
   .week-item-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
   .week-item-badge{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:2px 7px;border-radius:20px;flex-shrink:0}
   .week-item.instagram .week-item-badge{background:rgba(229,184,58,.2);color:var(--instagram)}
   .week-item.ig-reel .week-item-badge{background:rgba(123,160,91,.2);color:var(--ig-reel)}
+  .week-item.mycelium .week-item-badge{background:rgba(139,105,20,.2);color:var(--mycelium)}
   .week-item.youtube .week-item-badge{background:rgba(224,59,59,.2);color:var(--youtube)}
   .week-item.draft .week-item-badge{background:rgba(107,102,96,.2);color:var(--draft)}
   .week-item-time{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--text-muted);margin-left:auto;flex-shrink:0}
@@ -215,6 +220,7 @@
     <div class="legend-item"><div class="legend-dot" style="background:var(--ig-reel)"></div>IG Reel</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--instagram)"></div>IG Carousel</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--youtube)"></div>YT Shorts</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--mycelium)"></div>Mycelium</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--draft)"></div>Draft</div>
     <div class="legend-item"><div class="legend-dot" style="background:#4285F4"></div>Scheduled</div>
     <div class="legend-item" style="margin-left:auto">
@@ -800,8 +806,11 @@
 
   // Determine visual class: ig-reel (matcha), instagram (yellow/carousel), youtube (red)
   function getVisualClass(p){
+    if(p.platform==='mycelium') return 'mycelium';
     if(p.platform==='youtube') return 'youtube';
     if(p.platform==='draft') return 'draft';
+    const title=(p.title||'').toLowerCase();
+    if(title.includes('mycelium') && !title.includes('carousel') && !title.includes('reel')) return 'mycelium';
     // Instagram posts: check if reel or carousel
     const title=(p.title||'').toLowerCase();
     if(p.driveFileType==='carousel'||title.includes('carousel')) return 'instagram';

@@ -21,6 +21,17 @@
       "driveThumbnail": "https://drive.google.com/thumbnail?id=1bxY2Gi_O1KCZy1evxNIgQXKxfyQsrit4&sz=w400",
       "driveFileName": "carousel_02",
       "driveFileType": "carousel"
+    },
+    {
+      "id": "mycelium-update-3-1",
+      "platform": "mycelium",
+      "title": "Website Update",
+      "time": "12:00",
+      "description": "Update mycelium-learn.com database with new resources and content",
+      "driveFileId": "",
+      "driveThumbnail": "",
+      "driveFileName": "",
+      "driveFileType": "website"
     }
   ],
   "2026-3-4": [
@@ -73,6 +84,17 @@
       "driveThumbnail": "https://drive.google.com/thumbnail?id=16m26vhiTRJdHinoJV4AGWao5MLn_sZmx&sz=w400",
       "driveFileName": "carousel_06",
       "driveFileType": "carousel"
+    },
+    {
+      "id": "mycelium-update-3-15",
+      "platform": "mycelium",
+      "title": "Website Update",
+      "time": "12:00",
+      "description": "Update mycelium-learn.com database with new resources and content",
+      "driveFileId": "",
+      "driveThumbnail": "",
+      "driveFileName": "",
+      "driveFileType": "website"
     }
   ],
   "2026-3-5": [
@@ -385,6 +407,17 @@
       "driveThumbnail": "",
       "driveFileName": "",
       "driveFileType": "video"
+    },
+    {
+      "id": "mycelium-update-4-1",
+      "platform": "mycelium",
+      "title": "Website Update",
+      "time": "12:00",
+      "description": "Update mycelium-learn.com database with new resources and content",
+      "driveFileId": "",
+      "driveThumbnail": "",
+      "driveFileName": "",
+      "driveFileType": "website"
     }
   ],
   "2026-4-2": [
@@ -567,6 +600,17 @@
       "driveThumbnail": "",
       "driveFileName": "",
       "driveFileType": "video"
+    },
+    {
+      "id": "mycelium-update-4-15",
+      "platform": "mycelium",
+      "title": "Website Update",
+      "time": "12:00",
+      "description": "Update mycelium-learn.com database with new resources and content",
+      "driveFileId": "",
+      "driveThumbnail": "",
+      "driveFileName": "",
+      "driveFileType": "website"
     }
   ],
   "2026-4-16": [
